@@ -1,0 +1,25 @@
+import java_cup.runtime.*;
+
+terminal FINALIZADOR, MAIS, MENOS, DIVIZAO, MULTIPLICACAO;
+terminal Integer INTEIRO;
+terminal String LITERAL;
+
+non terminal Object core, corpo_calculo;
+non terminal Integer final_calculo;
+non terminal String frase;
+
+core ::= core corpo_calculo
+            | corpo_calculo
+			| core frase
+			| frase;
+			  
+corpo_calculo  ::= final_calculo:e1 {: System.out.println(e1); :} FINALIZADOR;
+
+final_calculo ::=  INTEIRO:n MAIS final_calculo:e {: RESULT = Integer.valueOf(n.intValue() + e.intValue()); :}
+     	| INTEIRO:n MENOS final_calculo:e {: RESULT = Integer.valueOf(n.intValue() - e.intValue()); :}
+    	| INTEIRO:n DIVIZAO final_calculo:e {: RESULT = Integer.valueOf(n.intValue() / e.intValue()); :}
+    	| INTEIRO:n MULTIPLICACAO final_calculo:e {: RESULT = Integer.valueOf(n.intValue() * e.intValue()); :}
+    	| INTEIRO:n {: RESULT = Integer.valueOf(n.intValue()); :};
+
+frase ::= LITERAL:l{: System.out.println(l); :} FINALIZADOR;
+			
