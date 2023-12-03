@@ -1,0 +1,22 @@
+{
+  "files.exclude": {
+    "Parser.java": true,
+    "Sym.java": true,
+    "jflex-full-1.9.1.jar": true,
+    "java-cup-11b.jar": true,
+    "java-cup-11b-runtime.jar": true,
+    "Sym.class": true,
+    "Lexer.java": true,
+    "Main.class": true,
+    "Parser$CUP$Parser$actions.class": true,
+    "Parser.class": true,
+    "Lexer.class": true,
+    "Lexer.java~": true,
+    "gerar_jflex_jcup.bat": true,
+    "compilar.bat": true,
+    "apagaNaoFontes.bat": true,
+    "1.bat": true,
+    "2.bat": true,
+    "3.bat": true
+  }
+}

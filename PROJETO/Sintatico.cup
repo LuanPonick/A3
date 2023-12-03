@@ -2,18 +2,56 @@ import java_cup.runtime.*;
 
 terminal FINALIZADOR, MAIS, MENOS, DIVIZAO, MULTIPLICACAO;
 terminal Integer INTEIRO;
-terminal String LITERAL;
+terminal String LITERAL, EXERCICIO, VIRGULA ;
 
 non terminal Object core, corpo_calculo;
-non terminal Integer final_calculo;
-non terminal String frase;
+non terminal Integer final_calculo, finalizar_repeticoes, finalizar_peso;
+non terminal String frase, cabeca_fazer_exercicio, corpo_fazer_exercicio ,finalizar_nome;
 
 core ::= core corpo_calculo
             | corpo_calculo
 			| core frase
-			| frase;
+			| frase
+			| core cabeca_fazer_exercicio
+			| cabeca_fazer_exercicio;
 			  
-corpo_calculo  ::= final_calculo:e1 {: System.out.println(e1); :} FINALIZADOR;
+cabeca_fazer_exercicio  ::= corpo_fazer_exercicio:a {: System.out.println(a); :} FINALIZADOR;
+
+corpo_fazer_exercicio ::= EXERCICIO finalizar_nome:r1 finalizar_repeticoes:r2 finalizar_peso:r3 {: 
+	if(r2 == -1 || r3 == -1){
+		RESULT = "valores invalidos";
+	}else{
+		String varr1 = r1;
+		String varr2 = Integer.toString(r2);
+		String varr3 = Integer.toString(r3);
+		RESULT = "o aluno " +varr1 + " ira fazer um total de "+ varr2+ " repetições " + "com uma carga de "+varr3+" kg"; 
+	}
+:} ;
+
+finalizar_nome ::= LITERAL:l VIRGULA {: RESULT = l; :};
+
+finalizar_repeticoes ::= INTEIRO:r  VIRGULA{: 
+			int ajudante = Integer.valueOf(r.intValue());
+			if(ajudante >= 30){
+				RESULT = -1;
+				System.out.println("O numero de respetiçoes esta invalida " + r.intValue() + " > 30");
+			}else{
+				RESULT = Integer.valueOf(r.intValue());
+			}
+		:};
+
+finalizar_peso ::= INTEIRO:r 
+	{:
+		int ajudante = Integer.valueOf(r.intValue());
+		if(ajudante > 300){
+			RESULT = -1;
+			System.out.println("A carga esta invalida "+r.intValue()+" > 300");
+		}else{
+			RESULT = Integer.valueOf(r.intValue());
+		}
+	:};
+
+corpo_calculo ::= final_calculo:e1 {: System.out.println(e1); :} FINALIZADOR;
 
 final_calculo ::=  INTEIRO:n MAIS final_calculo:e {: RESULT = Integer.valueOf(n.intValue() + e.intValue()); :}
      	| INTEIRO:n MENOS final_calculo:e {: RESULT = Integer.valueOf(n.intValue() - e.intValue()); :}
